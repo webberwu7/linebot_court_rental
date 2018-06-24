@@ -1,5 +1,4 @@
 from flask import Flask, request, abort
-import os
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -8,18 +7,15 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+    MessageEvent, TextMessage, TextSendMessage,
 )
 
 app = Flask(__name__)
 
-# Channel Access Token
-line_bot_api = LineBotApi(os.environ.get('ChannelAccess'))
-# Channel Secret
-handler = WebhookHandler(os.environ.get('ChannelSecret'))
+line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
+handler = WebhookHandler('YOUR_CHANNEL_SECRET')
 
 
-# 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -40,13 +36,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
     line_bot_api.reply_message(
         event.reply_token,
-        message)
+        TextSendMessage(text=event.message.text))
 
 
 if __name__ == "__main__":
-    # port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=33507)
-    # app.run()
+    app.run()
