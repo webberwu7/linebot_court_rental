@@ -15,8 +15,7 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi(os.environ.get('ChannelAccess'))
 handler = WebhookHandler(os.environ.get('ChannelSecret'))
-print(os.environ.get('ChannelAccess'))
-print(os.environ.get('ChannelSecret'))
+
 
 @app.route("/hello")
 def hello():
@@ -49,4 +48,4 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.app.run(host='0.0.0.0')
