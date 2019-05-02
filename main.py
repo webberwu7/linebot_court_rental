@@ -1,5 +1,5 @@
-from flask import Flask, request, abort
 import os
+from flask import Flask, request, abort
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -10,6 +10,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 )
+from router import text_router
 
 app = Flask(__name__)
 
@@ -27,8 +28,8 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-    print(signature)
+    # app.logger.info("Request body: " + body)
+    print("signature : ", signature)
     # handle webhook body
     try:
         handler.handle(body, signature)
@@ -40,7 +41,15 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text="hello"+event.message.text)
+    # get user input message
+    inputText = event.message.text
+    
+    # parser user input message
+    print("debug: "+ str(inputText))
+    inputCommand = text_router.parser_text(inputText)
+
+    # return somthing to user
+    message = TextSendMessage(text=inputCommand)
     line_bot_api.reply_message(
         event.reply_token,
         message)
