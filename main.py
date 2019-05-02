@@ -40,10 +40,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
+    message = TextSendMessage(text="hello"+event.message.text)
     line_bot_api.reply_message(
         event.reply_token,
-        "hello "+message)
+        message))
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
