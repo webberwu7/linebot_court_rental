@@ -9,8 +9,12 @@ def parser_text(inputText):
     first = inputTextToken.pop(0)
 
     if first == 'account':
+        second = inputTextToken.pop(0)
         account = controller.AccountController()
-        return str(account.get_accounts())
+        
+        if(second == 'register'):
+            return str(account.get_accounts())
+
 
     elif first == 'search':
         return 'search manager'
