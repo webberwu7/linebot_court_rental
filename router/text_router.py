@@ -15,11 +15,15 @@ def parser_text(inputText):
             return str(account.get_accounts())
 
     elif first == 'search':
-        second = inputTextToken.pop(0)
+        #second = inputTextToken.pop(0)
         search = controller.SearchController()
 
-        if second == 'court':
-            return str(search.get_court())
+        #if second == 'court':
+        #    return str(search.get_court())
+        
+        third = inputTextToken.pop(0)
+        if third == 'Monday':
+            return str(search.get_day(third))
 
     elif first == 'booking':
         return 'booking something'
