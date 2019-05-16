@@ -16,7 +16,11 @@ def parser_text(inputText):
             return str(account.get_accounts())
 
     elif first == 'search':
-        return 'search manager'
+        second = inputTextToken.pop(0)
+        search = controller.SearchController()
+
+        if second == 'court':
+            return str(search.get_court())
 
     elif first == 'booking':
         return 'booking something'

@@ -53,3 +53,18 @@ class BulletinModel(Model):
 
         self.close()
         return answer
+
+class CourtModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "court"
+
+    def get_court(self):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute('SELECT * FROM `court`')
+        answer = cursor.fetchall()
+
+        self.close()
+        return answer

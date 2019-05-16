@@ -19,3 +19,11 @@ class BulletinController(Controller):
     
     def get_bulletins(self):
         return self.bulletinModel.getBulletins()
+
+
+class SearchController(Controller):
+    def __init__(self):
+        self.CourtModel = model.CourtModel()
+    
+    def get_court(self):
+        return self.CourtModel.get_court()
