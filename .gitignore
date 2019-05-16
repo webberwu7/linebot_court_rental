@@ -1,2 +1,7 @@
 .idea/
 .vscode/
+config/__pycache__
+controller/__pycache__
+model/__pycache__
+router/__pycache__
+test.py

@@ -43,9 +43,9 @@ def callback():
 def handle_message(event):
     # get user input message
     inputText = event.message.text
-    
+
     # parser user input message
-    print("debug: "+ str(inputText))
+    print("debug: " + str(inputText))
     inputCommand = text_router.parser_text(inputText)
 
     # return somthing to user
@@ -53,6 +53,7 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         message)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
