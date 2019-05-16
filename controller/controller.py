@@ -11,3 +11,11 @@ class AccountController(Controller):
     
     def get_accounts(self):
         return self.accountModel.getAccounts()
+
+
+class BulletinController(Controller):
+    def __init__(self):
+        self.bulletinModel = model.BulletinModel()
+    
+    def get_bulletins(self):
+        return self.bulletinModel.getBulletins()

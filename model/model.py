@@ -37,3 +37,19 @@ class AccountModel(Model):
 
         self.close()
         return answer
+
+
+class BulletinModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "bulletin"
+
+    def getBulletins(self):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute('SELECT * FROM `bulletin`')
+        answer = cursor.fetchall()
+
+        self.close()
+        return answer
