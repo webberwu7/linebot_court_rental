@@ -1,6 +1,5 @@
 from controller import controller
 
-
 def parser_text(inputText):
     inputText = str(inputText)
     inputTextToken = inputText.split('/')
@@ -24,6 +23,10 @@ def parser_text(inputText):
 
     elif first == 'booking':
         return 'booking something'
+    
+    elif first == 'maintain':
+        maintain = controller.MaintainController()
+        return str(maintain.get_maintains())
 
     elif first == 'bulletin':
         ##content
