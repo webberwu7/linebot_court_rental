@@ -4,20 +4,36 @@ from config import config
 
 class Model():
     # def __init__(self, dbhost, dbname, account, password, port):
+    # def __init__(self):
+    #     configData = config.Config()
+    #     self.dbhost = configData.dbhost
+    #     self.dbname = configData.dbname
+    #     self.account = configData.account
+    #     self.password = configData.password
+    #     self.port = configData.dbport
+
+    # def connect(self):
+    #     self.connection = pymysql.connect(host=self.dbhost,
+    #                                       port=self.port,
+    #                                       user=self.account,
+    #                                       password=self.password,
+    #                                       db=self.dbname,
+    #                                       charset='utf8')
     def __init__(self):
-        configData = config.Config()
-        self.dbhost = configData.dbhost
-        self.dbname = configData.dbname
-        self.account = configData.account
-        self.password = configData.password
-        self.port = configData.dbport
+        pass
+        # configData = config.Config()
+        # self.dbhost = configData.dbhost
+        # self.dbname = configData.dbname
+        # self.account = configData.account
+        # self.password = configData.password
+        # self.port = configData.dbport
 
     def connect(self):
-        self.connection = pymysql.connect(host=self.dbhost,
-                                          port=self.port,
-                                          user=self.account,
-                                          password=self.password,
-                                          db=self.dbname,
+        self.connection = pymysql.connect(host="db.arios.tw",
+                                          port=33306,
+                                          user="webberwu",
+                                          password="webber07",
+                                          db="project",
                                           charset='utf8')
 
     def close(self):
@@ -70,7 +86,7 @@ class CourtModel(Model):
 
         self.close()
         return answer
-
+        
 
 class MaintainModel(Model):
     def __init__(self, ):
@@ -86,3 +102,20 @@ class MaintainModel(Model):
 
         self.close()
         return answer
+        
+
+class InquireModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "time_slot"
+
+    def get_day(self, day):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute('SELECT' + 'day' + 'FROM `time_slot`')
+        answer = cursor.fetchall()
+
+        self.close()
+        return answer
+

@@ -21,18 +21,24 @@ class BulletinController(Controller):
     def get_bulletins(self):
         return self.bulletinModel.getBulletins()
 
-
-class SearchController(Controller):
-    def __init__(self):
-        self.CourtModel = model.CourtModel()
-
-    def get_court(self):
-        return self.CourtModel.get_court()
-
-
+        
 class MaintainController(Controller):
     def __init__(self):
         self.maintainModel = model.MaintainModel()
 
     def get_maintains(self):
         return self.maintainModel.getMaintain()
+        
+
+class SearchController(Controller):
+    def __init__(self):
+        self.CourtModel = model.CourtModel()
+        self.InquireMode = model.InquireModel()
+    
+    def get_court(self):
+        return self.CourtModel.get_court()
+    
+    def get_day(self, day):
+        return self.InquireMode.get_day()
+        
+    

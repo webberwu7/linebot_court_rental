@@ -20,6 +20,10 @@ def parser_text(inputText):
 
         if second == 'court':
             return str(search.get_court())
+        
+        third = inputTextToken.pop(0)
+        if third == 'A':
+            return str(search.get_day(third))
 
     elif first == 'booking':
         return 'booking something'
