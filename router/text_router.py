@@ -11,16 +11,25 @@ def parser_text(inputText):
     if first == 'account':
         second = inputTextToken.pop(0)
         account = controller.AccountController()
-        
+
         if(second == 'register'):
             return str(account.get_accounts())
 
-
     elif first == 'search':
-        return 'search manager'
+        second = inputTextToken.pop(0)
+        search = controller.SearchController()
+
+        if second == 'court':
+            return str(search.get_court())
 
     elif first == 'booking':
         return 'booking something'
+
+    elif first == 'bulletin':
+        ##content
+        ##time
+        bulletin = controller.BulletinController()
+        return str(bulletin.get_bulletins())
 
     else:
         return "i don't know what you say"
