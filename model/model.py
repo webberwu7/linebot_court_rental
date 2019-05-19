@@ -1,6 +1,7 @@
 import pymysql
 from config import config
 
+
 class Model():
     # def __init__(self, dbhost, dbname, account, password, port):
     def __init__(self):
@@ -53,6 +54,7 @@ class BulletinModel(Model):
 
         self.close()
         return answer
+
 
 class CourtModel(Model):
     def __init__(self, ):

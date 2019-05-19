@@ -26,10 +26,8 @@ def parser_text(inputText):
         return 'booking something'
 
     elif first == 'bulletin':
-        ##content
-        ##time
         bulletin = controller.BulletinController()
-        return str(bulletin.get_bulletins())
+        return bulletin.get_bulletins()
 
     else:
         return "i don't know what you say"
