@@ -33,10 +33,8 @@ def parser_text(inputText):
         return str(maintain.get_maintains())
 
     elif first == 'bulletin':
-        ##content
-        ##time
         bulletin = controller.BulletinController()
-        return str(bulletin.get_bulletins())
+        return bulletin.get_bulletins()
 
     else:
         return "i don't know what you say"
