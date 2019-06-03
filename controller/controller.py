@@ -1,4 +1,6 @@
 from model import model
+from view import view
+import time
 
 
 class Controller:

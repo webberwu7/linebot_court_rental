@@ -28,6 +28,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
+    print("Request body: " + body)
     # app.logger.info("Request body: " + body)
     print("signature : ", signature)
     # handle webhook body
@@ -46,13 +47,14 @@ def handle_message(event):
 
     # parser user input message
     print("debug: " + str(inputText))
-    inputCommand = text_router.parser_text(inputText)
+
+    # view
+    outputView = text_router.parser_text(inputText)
 
     # return somthing to user
-    message = TextSendMessage(text=inputCommand)
     line_bot_api.reply_message(
         event.reply_token,
-        message)
+        outputView.show())
 
 
 if __name__ == "__main__":
