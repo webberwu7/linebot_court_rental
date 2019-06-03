@@ -46,13 +46,16 @@ def handle_message(event):
 
     # parser user input message
     print("debug: " + str(inputText))
-    inputCommand = text_router.parser_text(inputText)
+    # inputCommand = text_router.parser_text(inputText)
+
+    # view
+    outputView = text_router.parser_text(inputText)
 
     # return somthing to user
-    message = TextSendMessage(text=inputCommand)
+    # message = TextSendMessage(text=inputCommand)
     line_bot_api.reply_message(
         event.reply_token,
-        message)
+        outputView.show())
 
 
 if __name__ == "__main__":

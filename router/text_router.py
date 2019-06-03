@@ -1,4 +1,5 @@
 from controller import controller
+from view import view
 
 def parser_text(inputText):
     inputText = str(inputText)
@@ -12,7 +13,7 @@ def parser_text(inputText):
         account = controller.AccountController()
 
         if(second == 'register'):
-            return str(account.get_accounts())
+            return view.TextView(account.get_accounts())
 
     elif first == 'search':
         #second = inputTextToken.pop(0)
