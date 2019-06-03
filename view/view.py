@@ -1,6 +1,7 @@
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, ButtonsTemplate,
-    TemplateSendMessage, PostbackTemplateAction, MessageTemplateAction, URITemplateAction
+    TemplateSendMessage, PostbackTemplateAction, MessageTemplateAction, URITemplateAction,
+    CarouselTemplate, CarouselColumn
 )
 
 
@@ -17,33 +18,52 @@ class TextView(View):
         return TextSendMessage(text=self.inputStr)
 
 
-class ButtonMessageView(View):
+class HelperView(View):
     def __init__(self, title, text):
         self.title = title
         self.text = text
 
     def show(self):
         return TemplateSendMessage(
-            alt_text="button message",
-            template=ButtonsTemplate(
-                title=self.title,
-                text=self.text,
-                image_aspect_ratio='square',
-                image_size='contain',
-                thumbnail_image_url="https://imgur.com/a/jnYeRXG",
-                actions=[
-                    MessageTemplateAction(
-                        label='帳號',
-                        text='account'
+            alt_text="help order carousel template message",
+            template=CarouselTemplate(
+                columns=[
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='帳號',
+                                text='account'
+                            ),
+                            MessageTemplateAction(
+                                label='搜尋',
+                                text='search'
+                            ),
+                            MessageTemplateAction(
+                                label='預約',
+                                text='booking'
+                            )
+                        ]
                     ),
-                    MessageTemplateAction(
-                        label='搜尋',
-                        text='search'
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='報修',
+                                text='maintain'
+                            ),
+                            MessageTemplateAction(
+                                label='佈告欄',
+                                text='bulletin'
+                            ),
+                            MessageTemplateAction(
+                                label='幫助',
+                                text='help'
+                            )
+                        ]
                     ),
-                    MessageTemplateAction(
-                        label='預約',
-                        text='booking'
-                    )
                 ]
             )
         )
@@ -69,6 +89,7 @@ class ButtonDataView(View):
                 ]
             )
         )
+
 
 class ButtonUrlView(View):
     def __init__(self, title, text):
