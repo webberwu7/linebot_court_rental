@@ -80,7 +80,7 @@ class MaintainController(Controller):
         answer = "\n"
         for maintain in maintains:
             answer += "報修通報: " + maintain['name'] + " 場地已被通報維修\n"
-        
+
         return answer
 
     def post_maintain(self, court, uid):
@@ -96,5 +96,14 @@ class SearchController(Controller):
         answer = self.bookingModel.find(time, court)
         if answer['amount'] != 0:
             return view.TextView("這時間的球場有人預約囉")
-        
+
         return view.TextView("此時段為空 請問要預約嗎？")
+
+
+class BookingController(Controller):
+    def __init__(self):
+        self.bookingModel = model.BookingModel()
+
+    def store(self, uid, time, court):
+        self.bookingModel.store(uid, time, court)
+        return view.TextView("預約完成")

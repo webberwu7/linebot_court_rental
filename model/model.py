@@ -120,7 +120,8 @@ class MaintainModel(Model):
         self.connect()
 
         cursor = self.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT `name` FROM `maintain` LEFT JOIN `court` ON `maintain`.`court_id` = `court`.`id`")
+        cursor.execute(
+            "SELECT `name` FROM `maintain` LEFT JOIN `court` ON `maintain`.`court_id` = `court`.`id`")
         answer = cursor.fetchall()
 
         self.close()
@@ -212,19 +213,33 @@ class HobbyModel(Model):
 
         return answer
 
+
 class BookingModel(Model):
     def __init__(self, ):
         super().__init__()
         self.table = "booking"
 
     def find(self, time, court):
-        # SELECT * FROM `booking` WHERE time_range_id = 1 and court_id = 1
         self.connect()
 
         cursor = self.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT count(*) as amount FROM `booking` WHERE `time_range_id` = %s and `court_id` = %s", (time, court))
+        cursor.execute(
+            "SELECT count(*) as amount FROM `booking` WHERE `time_range_id` = %s and `court_id` = %s", (time, court))
         answer = cursor.fetchone()
 
+        self.close()
+
+        return answer
+
+    def store(self, uid, time, court):
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(
+            "INSERT INTO `booking` (`line_id`, `time_range_id`, `court_id`) VALUES (%s, %s, %s)", (uid, time, court))
+
+        self.connection.commit()
+        answer = cursor.lastrowid
         self.close()
 
         return answer
