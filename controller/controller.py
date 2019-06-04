@@ -90,11 +90,11 @@ class MaintainController(Controller):
 
 class SearchController(Controller):
     def __init__(self):
-        self.CourtModel = model.CourtModel()
-        self.InquireMode = model.InquireModel()
+        self.bookingModel = model.BookingModel()
 
-    def get_court(self):
-        return self.CourtModel.get_court()
-
-    def get_day(self, day):
-        return self.InquireMode.get_day(day)
+    def find(self, time, court):
+        answer = self.bookingModel.find(time, court)
+        if answer['amount'] != 0:
+            return view.TextView("這時間的球場有人預約囉")
+        
+        return view.TextView("此時段為空 請問要預約嗎？")

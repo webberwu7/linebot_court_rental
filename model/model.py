@@ -211,3 +211,20 @@ class HobbyModel(Model):
         self.close()
 
         return answer
+
+class BookingModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "booking"
+
+    def find(self, time, court):
+        # SELECT * FROM `booking` WHERE time_range_id = 1 and court_id = 1
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("SELECT count(*) as amount FROM `booking` WHERE `time_range_id` = %s and `court_id` = %s", (time, court))
+        answer = cursor.fetchone()
+
+        self.close()
+
+        return answer
