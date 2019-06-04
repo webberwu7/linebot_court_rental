@@ -1,3 +1,4 @@
+import json
 import pymysql
 from config import config
 
@@ -36,6 +37,30 @@ class AccountModel(Model):
         answer = cursor.fetchall()
 
         self.close()
+        return answer
+
+    def store(self, student_id, uid):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute('INSERT INTO `account` (`student_id`, `line_token`) VALUES (%s, %s)', [
+                       student_id, uid])
+
+        self.connection.commit()
+        answer = cursor.lastrowid
+        self.close()
+
+        return answer
+
+    def find(self, id):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM `account` WHERE `id` = %s", id)
+        answer = cursor.fetchall()
+
+        self.close()
+        answer = json.dumps(answer)
         return answer
 
 
@@ -100,4 +125,27 @@ class InquireModel(Model):
         answer = cursor.fetchall()
 
         self.close()
+        return answer
+
+
+class StatusModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "user_status"
+
+    def store(self, uid, status):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        insert_str = 'INSERT INTO `{table}` (`line_uid`, `status`) VALUES ({uid}, {status})'.format(
+            table=self.table,
+            uid=uid,
+            status=status
+        )
+
+        cursor.execute(insert_str)
+        self.connection.commit()
+        answer = cursor.lastrowid
+        self.close()
+
         return answer

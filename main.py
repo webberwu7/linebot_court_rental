@@ -44,13 +44,15 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # get user input message
+    uid = event.source.user_id
     inputText = event.message.text
 
     # parser user input message
-    print("debug: " + str(inputText))
+    print("debug user: " + str(uid))
+    print("debug text: " + str(inputText))
 
     # view
-    outputView = text_router.parser_text(inputText)
+    outputView = text_router.parser_text(inputText, uid)
 
     # return somthing to user
     line_bot_api.reply_message(

@@ -2,7 +2,7 @@ from controller import controller
 from view import view
 
 
-def parser_text(inputText):
+def parser_text(inputText, uid):
     inputText = str(inputText).lower()
     inputTextToken = inputText.split('/')
 
@@ -18,7 +18,9 @@ def parser_text(inputText):
             second = inputTextToken.pop(0)
 
         if second == 'register':
-            return view.TextView(account.get_accounts())
+            third = inputTextToken.pop(0)
+            answer = account.store(uid, third)
+            return view.TextView(answer)
 
     elif first == 'search':
         #second = inputTextToken.pop(0)
