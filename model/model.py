@@ -130,7 +130,7 @@ class MaintainModel(Model):
         self.connect()
         cursor = self.connection.cursor()
 
-        cursor.execute('INSERT INTO maintain (account_id,court_id,create_time) VALUES (%s,%s,%s)',
+        cursor.execute('INSERT INTO maintain (line_id,court_id,create_time) VALUES (%s,%s,%s)',
                        (uid, court, time))
 
         self.connection.commit()

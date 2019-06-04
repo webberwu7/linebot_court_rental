@@ -266,6 +266,57 @@ class AccountHobbyCourtHelpView(View):
         )
 
 
+class MaintainHelpView(View):
+    def __init__(self, title='報修系統', text='請選擇要報修的球場'):
+        self.title = title
+        self.text = text
+
+    def show(self):
+        return TemplateSendMessage(
+            alt_text="maintain help button message",
+            template=ButtonsTemplate(
+                title=self.title,
+                text=self.text,
+                actions=[
+                    MessageTemplateAction(
+                        label='目前所有報修',
+                        text='maintain/all'
+                    ),
+                    MessageTemplateAction(
+                        label='新增報修',
+                        text='maintain/post'
+                    )
+                ]
+            )
+        )
+
+
+class MaintainPostHelpView(View):
+    def __init__(self, title='報修球場', text='報修球場指令小幫手', last_input="maintain/post"):
+        self.title = title
+        self.text = text
+        self.last_input = last_input
+
+    def show(self):
+        return TemplateSendMessage(
+            alt_text="maintain help button message",
+            template=ButtonsTemplate(
+                title=self.title,
+                text=self.text,
+                actions=[
+                    MessageTemplateAction(
+                        label='籃球場',
+                        text=self.last_input+'/1'
+                    ),
+                    MessageTemplateAction(
+                        label='排球場',
+                        text=self.last_input+'/2'
+                    )
+                ]
+            )
+        )
+
+
 class ButtonDataView(View):
     def __init__(self, title, text):
         self.title = title

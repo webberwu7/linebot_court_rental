@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 from controller import controller
 from view import view
 
@@ -66,6 +66,9 @@ def parser_text(inputText, uid):
         return view.TextView('booking something')
 
     elif first == 'maintain':
+        if not inputTextToken:
+            return view.MaintainHelpView()
+
         maintain = controller.MaintainController()
         second = inputTextToken.pop(0)
 
@@ -73,6 +76,9 @@ def parser_text(inputText, uid):
             return view.TextView(maintain.get_maintains())
 
         elif(second == 'post'):
+            if not inputTextToken:
+                return view.MaintainPostHelpView()
+
             court = inputTextToken.pop(0)
             maintain.post_maintain(court, uid)
             return view.TextView('報修新增完成')
