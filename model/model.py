@@ -1,6 +1,7 @@
 import json
 import pymysql
 from config import config
+import time
 
 
 class Model():
@@ -63,6 +64,13 @@ class AccountModel(Model):
         answer = json.dumps(answer)
         return answer
 
+    def account2id(self, user_id):
+        self.connect()
+        cursor = self.connection.cursor()
+        cursor.execute('SELECT id FROM account WHERE student_id=%s', user_id)
+        answer = cursor.fetchone()
+        return answer[0]
+
 
 class BulletinModel(Model):
     def __init__(self, ):
@@ -95,21 +103,38 @@ class CourtModel(Model):
         self.close()
         return answer
 
+    def court2id(self, court):
+        self.connect()
+        cursor = self.connection.cursor()
+        cursor.execute('SELECT id FROM court WHERE name=%s', court)
+        answer = cursor.fetchone()
+        return answer[0]
+
 
 class MaintainModel(Model):
     def __init__(self, ):
         super().__init__()
         self.table = "maintain"
 
-    def getMaintain(self):
+    def getMaintainList(self):
         self.connect()
 
-        cursor = self.connection.cursor()
-        cursor.execute('SELECT * FROM `maintain`')
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("SELECT `name` FROM `maintain` LEFT JOIN `court` ON `maintain`.`court_id` = `court`.`id`")
         answer = cursor.fetchall()
 
         self.close()
         return answer
+
+    def postMaintain(self, court, uid, time):
+        self.connect()
+        cursor = self.connection.cursor()
+
+        cursor.execute('INSERT INTO maintain (account_id,court_id,create_time) VALUES (%s,%s,%s)',
+                       (uid, court, time))
+
+        self.connection.commit()
+        self.close()
 
 
 class InquireModel(Model):
