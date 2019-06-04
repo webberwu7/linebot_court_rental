@@ -149,3 +149,38 @@ class StatusModel(Model):
         self.close()
 
         return answer
+
+
+class HobbyModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "hobby"
+
+    def store(self, account, time_range, court):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute('INSERT INTO `hobby` (`account_id`, `time_range_id`, `court_id`) VALUES (%{account}s, %{time_range}s, %{court}s) ON DUPLICATE KEY UPDATE `time_range_id` = %{time_range}s , `court_id` = %{court}s', 
+            { 
+                'account': account,
+                'time_range': time_range,
+                'court': court
+            })
+
+        self.connection.commit()
+        answer=cursor.lastrowid
+        self.close()
+
+        return answer
+
+    def find(self, account):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM `hobby` WHERE `account_id` = %s", account)
+        answer = cursor.fetchone()
+        
+        self.close()
+
+        return answer
+

@@ -12,6 +12,7 @@ class AccountController(Controller):
     def __init__(self):
         self.accountModel = model.AccountModel()
         self.statusModel = model.StatusModel()
+        self.hobbyModel = model.HobbyModel()
 
     def ask_register(self, uid):
         status_row = self.statusModel.store(uid, 1)
@@ -24,6 +25,16 @@ class AccountController(Controller):
 
     def get_accounts(self):
         return self.accountModel.getAccounts()
+
+    def set_hobby(self, uid, time, court):
+        account = self.accountModel.find(uid)[0]
+        answer = self.hobbyModel.store(account, time, court)
+        return "insert hobby success: "+str(answer[1])+" "+str(answer[2])
+
+    def get_hobby(self, uid):
+        account = self.hobbyModel.find(uid)[0]
+        answer = self.hobbyModel.find(account)
+        return "my hobby : " + str(answer)
 
 
 class BulletinController(Controller):

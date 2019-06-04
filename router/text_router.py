@@ -17,10 +17,35 @@ def parser_text(inputText, uid):
         else:
             second = inputTextToken.pop(0)
 
+        # account/register/60747021s
         if second == 'register':
             third = inputTextToken.pop(0)
             answer = account.store(uid, third)
             return view.TextView(answer)
+
+        # account/hobby/time/1/court/1
+        elif second == 'hobby':
+            if not inputTextToken:
+                return view.TextView(account.get_hobby(uid))
+
+            third = inputTextToken.pop(0)
+
+            if third == 'time':
+                if not inputTextToken:
+                    return view.TextView('more infomation')
+                
+                time = inputTextToken.pop(0)
+                
+                if not inputTextToken:
+                    return view.TextView('more infomation')
+                
+                four = inputTextToken.pop(0)
+                if four == 'court':
+                    if not inputTextToken:
+                        return view.TextView('more infomation')
+
+                    court = inputTextToken.pop(0)
+                    return view.TextView(account.set_hobby(uid, time, court))
 
     elif first == 'search':
         #second = inputTextToken.pop(0)
