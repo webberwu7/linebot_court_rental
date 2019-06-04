@@ -222,9 +222,9 @@ class BookingModel(Model):
         self.connect()
 
         cursor = self.connection.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT coutn(*) FROM `booking` WHERE `time_range_id` = %s and `court_id` = %s", time, court)
-        answer = cursor.fetchall()
-        print(answer)
+        cursor.execute("SELECT count(*) as amount FROM `booking` WHERE `time_range_id` = %s and `court_id` = %s", (time, court))
+        answer = cursor.fetchone()
+
         self.close()
 
         return answer

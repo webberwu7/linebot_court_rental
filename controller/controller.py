@@ -93,4 +93,8 @@ class SearchController(Controller):
         self.bookingModel = model.BookingModel()
 
     def find(self, time, court):
-        return self.bookingModel.find(time, court)
+        answer = self.bookingModel.find(time, court)
+        if answer['amount'] != 0:
+            return view.TextView("這時間的球場有人預約囉")
+        
+        return view.TextView("此時段為空 請問要預約嗎？")

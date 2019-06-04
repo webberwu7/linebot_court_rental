@@ -318,7 +318,7 @@ class MaintainPostHelpView(View):
 
 
 class SearchTimeHelpView(View):
-    def __init__(self, title='搜尋小幫手', text='請選擇搜尋時間', last_input="/search"):
+    def __init__(self, title='搜尋小幫手', text='請選擇搜尋時間', last_input="search"):
         self.title = title
         self.text = text
         self.last_input = last_input

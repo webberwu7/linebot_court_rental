@@ -74,7 +74,7 @@ def parser_text(inputText, uid):
 
                 court = inputTextToken.pop(0)
 
-                return view.TextView(search.find(uid, time, court))
+                return search.find(time, court)
 
             else:
                 return view.SearchTimeHelpView()
