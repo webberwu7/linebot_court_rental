@@ -8,7 +8,8 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+    MessageEvent, PostbackEvent,
+    TextMessage, TextSendMessage, ImageSendMessage
 )
 from router import text_router
 

@@ -43,7 +43,10 @@ def parser_text(inputText):
         return view.TextView(bulletin.get_bulletins())
 
     elif first == 'help':
-        return view.ButtonMessageView("小幫手", '指令')
+        return view.HelperView("小幫手", '指令')
+
+    elif first == 'debug':
+        return view.ButtonDataView('測試', 'debug')
 
     else:
         return view.TextView("i don't know what you say")
