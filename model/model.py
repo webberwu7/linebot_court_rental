@@ -40,9 +40,7 @@ class AccountModel(Model):
         self.close()
         return answer
 
-
-<< << << < refs/remotes/origin/master
-   def store(self, student_id, uid):
+    def store(self, student_id, uid):
         self.connect()
 
         cursor = self.connection.cursor()
@@ -65,14 +63,13 @@ class AccountModel(Model):
         self.close()
         answer = json.dumps(answer)
         return answer
-== =====
-   def account2id(self, user_id):
+
+    def account2id(self, user_id):
         self.connect()
         cursor = self.connection.cursor()
         cursor.execute('SELECT id FROM account WHERE student_id=%s', user_id)
         answer = cursor.fetchone()
         return answer[0]
->>>>>> > maintain rebase init
 
 
 class BulletinModel(Model):
@@ -119,30 +116,25 @@ class MaintainModel(Model):
         super().__init__()
         self.table = "maintain"
 
-    def getMaintain(self):
+    def getMaintainList(self):
         self.connect()
 
-        cursor = self.connection.cursor()
-        cursor.execute('SELECT COUNT(*) FROM `maintain`')  # 5筆
-        ##cursor.execute('SELECT * FROM `maintain`')
-        count = cursor.fetchall()  # ((5,),)
-        answer = count[0]  # (5,)
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("SELECT `name` FROM `maintain` LEFT JOIN `court` ON `maintain`.`court_id` = `court`.`id`")
+        answer = cursor.fetchall()
 
         self.close()
-        return answer[0]  # 5
+        return answer
 
-    def postMaintain(self, court, user_id, time):
+    def postMaintain(self, court, uid, time):
         self.connect()
         cursor = self.connection.cursor()
-
-        court_id = CourtModel()
-        account_id = AccountModel()
 
         cursor.execute('INSERT INTO maintain (account_id,court_id,create_time) VALUES (%s,%s,%s)',
-                       (account_id.account2id(user_id), court_id.court2id(court), time))
+                       (uid, court, time))
+
         self.connection.commit()
         self.close()
-        return print('報修成功')
 
 
 class InquireModel(Model):

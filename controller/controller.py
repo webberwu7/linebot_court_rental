@@ -1,3 +1,4 @@
+# coding=utf-8
 from model import model
 from view import view
 import time
@@ -27,7 +28,7 @@ class AccountController(Controller):
         return self.accountModel.getAccounts()
 
     def set_hobby(self, uid, time, court):
-        answer = self.hobbyModel.store(uid, time, court)
+        self.hobbyModel.store(uid, time, court)
         return "新增喜好成功"
 
     def get_hobby(self, uid):
@@ -75,11 +76,16 @@ class MaintainController(Controller):
         self.maintainModel = model.MaintainModel()
 
     def get_maintains(self):
-        return self.maintainModel.getMaintain()
+        maintains = self.maintainModel.getMaintainList()
+        answer = "\n"
+        for maintain in maintains:
+            answer += "報修通報: " + maintain['name'] + " 場地已被通報維修\n"
+        
+        return answer
 
-    def post_maintain(self, court, user_id):
+    def post_maintain(self, court, uid):
         now = time.strftime("%Y-%m-%d %H:%M:%S")
-        return self.maintainModel.postMaintain(court, user_id, now)
+        return self.maintainModel.postMaintain(court, uid, now)
 
 
 class SearchController(Controller):

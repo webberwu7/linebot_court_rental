@@ -1,3 +1,4 @@
+#coding=utf-8
 from controller import controller
 from view import view
 
@@ -36,12 +37,12 @@ def parser_text(inputText, uid):
             if third == 'time':
                 if not inputTextToken:
                     return view.AccountHobbyTimeHelpView(last_input=inputText)
-                
+
                 time = inputTextToken.pop(0)
-                
+
                 if not inputTextToken:
                     return view.AccountHobbyCourtHelpView(last_input=inputText)
-                
+
                 four = inputTextToken.pop(0)
                 if four == 'court':
                     if not inputTextToken:
@@ -64,16 +65,17 @@ def parser_text(inputText, uid):
     elif first == 'booking':
         return view.TextView('booking something')
 
-    elif first == 'maintain':   ## maintain/post/籃球場/60747021s  ## 1代表60747021s
+    elif first == 'maintain':
         maintain = controller.MaintainController()
         second = inputTextToken.pop(0)
 
         if(second == 'all'):
             return view.TextView(maintain.get_maintains())
+
         elif(second == 'post'):
             court = inputTextToken.pop(0)
-            user_id = inputTextToken.pop(0)
-            post = maintain.post_maintain(court,user_id)
+            maintain.post_maintain(court, uid)
+            return view.TextView('報修新增完成')
 
     elif first == 'bulletin':
         bulletin = controller.BulletinController()
