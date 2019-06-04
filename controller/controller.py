@@ -11,9 +11,28 @@ class Controller:
 class AccountController(Controller):
     def __init__(self):
         self.accountModel = model.AccountModel()
+        self.statusModel = model.StatusModel()
+        self.hobbyModel = model.HobbyModel()
+
+    def ask_register(self, uid):
+        status_row = self.statusModel.store(uid, 1)
+        return status_row
+
+    def store(self, uid, student_id):
+        answer = self.accountModel.store(student_id, uid)
+        answer = self.accountModel.find(uid)
+        return "you register new account : \n" + str(answer)
 
     def get_accounts(self):
         return self.accountModel.getAccounts()
+
+    def set_hobby(self, uid, time, court):
+        answer = self.hobbyModel.store(uid, time, court)
+        return "新增喜好成功"
+
+    def get_hobby(self, uid):
+        answer = self.hobbyModel.find(uid)
+        return "my hobby : " + str(answer)
 
 
 class BulletinController(Controller):
@@ -49,24 +68,23 @@ class BulletinController(Controller):
         output += "標題：{newU7}\n".format(newU7=newU7)
         output += "內容：{newU8}".format(newU8=newU8)
         return output
-        
+
+
 class MaintainController(Controller):
     def __init__(self):
         self.maintainModel = model.MaintainModel()
 
     def get_maintains(self):
         return self.maintainModel.getMaintain()
-        
+
 
 class SearchController(Controller):
     def __init__(self):
         self.CourtModel = model.CourtModel()
         self.InquireMode = model.InquireModel()
-    
+
     def get_court(self):
         return self.CourtModel.get_court()
-    
+
     def get_day(self, day):
         return self.InquireMode.get_day(day)
-        
-    

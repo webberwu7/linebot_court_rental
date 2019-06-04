@@ -1,3 +1,4 @@
+import json
 import pymysql
 from config import config
 
@@ -36,6 +37,30 @@ class AccountModel(Model):
         answer = cursor.fetchall()
 
         self.close()
+        return answer
+
+    def store(self, student_id, uid):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute('INSERT INTO `account` (`student_id`, `line_id`) VALUES (%s, %s)', [
+                       student_id, uid])
+
+        self.connection.commit()
+        answer = cursor.lastrowid
+        self.close()
+
+        return answer
+
+    def find(self, uid):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM `account` WHERE `line_id` = %s", uid)
+        answer = cursor.fetchall()
+
+        self.close()
+        answer = json.dumps(answer)
         return answer
 
 
@@ -100,4 +125,64 @@ class InquireModel(Model):
         answer = cursor.fetchall()
 
         self.close()
+        return answer
+
+
+class StatusModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "user_status"
+
+    def store(self, uid, status):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        insert_str = 'INSERT INTO `{table}` (`line_uid`, `status`) VALUES ({uid}, {status})'.format(
+            table=self.table,
+            uid=uid,
+            status=status
+        )
+
+        cursor.execute(insert_str)
+        self.connection.commit()
+        answer = cursor.lastrowid
+        self.close()
+
+        return answer
+
+
+class HobbyModel(Model):
+    def __init__(self, ):
+        super().__init__()
+        self.table = "hobby"
+
+    def store(self, uid, time_range, court):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute('INSERT INTO `hobby` (`line_id`, `time_range_id`, `court_id`) VALUES (%(uid)s, %(time_range)s, %(court)s) ON DUPLICATE KEY UPDATE `time_range_id` = %(time_range)s , `court_id` = %(court)s',
+                       {
+                           'uid': uid,
+                           'time_range': time_range,
+                           'court': court
+                       })
+
+        self.connection.commit()
+        answer = cursor.lastrowid
+        self.close()
+
+        return answer
+
+    def find(self, uid):
+        self.connect()
+
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT `day_of_week`,`zone`, `name` FROM `hobby` \
+                        LEFT JOIN `time_range` ON `hobby`.`time_range_id` = `time_range`.`id` \
+                        LEFT JOIN `court` ON `hobby`.`court_id` = `court`.`id` \
+                        WHERE `line_id` = %s", uid)
+        answer = cursor.fetchone()
+
+        self.close()
+
         return answer
