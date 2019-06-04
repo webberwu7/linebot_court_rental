@@ -1,6 +1,7 @@
 import json
 import pymysql
 from config import config
+import time
 
 
 class Model():
@@ -39,7 +40,9 @@ class AccountModel(Model):
         self.close()
         return answer
 
-    def store(self, student_id, uid):
+
+<< << << < refs/remotes/origin/master
+   def store(self, student_id, uid):
         self.connect()
 
         cursor = self.connection.cursor()
@@ -62,6 +65,14 @@ class AccountModel(Model):
         self.close()
         answer = json.dumps(answer)
         return answer
+== =====
+   def account2id(self, user_id):
+        self.connect()
+        cursor = self.connection.cursor()
+        cursor.execute('SELECT id FROM account WHERE student_id=%s', user_id)
+        answer = cursor.fetchone()
+        return answer[0]
+>>>>>> > maintain rebase init
 
 
 class BulletinModel(Model):
@@ -95,6 +106,13 @@ class CourtModel(Model):
         self.close()
         return answer
 
+    def court2id(self, court):
+        self.connect()
+        cursor = self.connection.cursor()
+        cursor.execute('SELECT id FROM court WHERE name=%s', court)
+        answer = cursor.fetchone()
+        return answer[0]
+
 
 class MaintainModel(Model):
     def __init__(self, ):
@@ -105,11 +123,26 @@ class MaintainModel(Model):
         self.connect()
 
         cursor = self.connection.cursor()
-        cursor.execute('SELECT * FROM `maintain`')
-        answer = cursor.fetchall()
+        cursor.execute('SELECT COUNT(*) FROM `maintain`')  # 5筆
+        ##cursor.execute('SELECT * FROM `maintain`')
+        count = cursor.fetchall()  # ((5,),)
+        answer = count[0]  # (5,)
 
         self.close()
-        return answer
+        return answer[0]  # 5
+
+    def postMaintain(self, court, user_id, time):
+        self.connect()
+        cursor = self.connection.cursor()
+
+        court_id = CourtModel()
+        account_id = AccountModel()
+
+        cursor.execute('INSERT INTO maintain (account_id,court_id,create_time) VALUES (%s,%s,%s)',
+                       (account_id.account2id(user_id), court_id.court2id(court), time))
+        self.connection.commit()
+        self.close()
+        return print('報修成功')
 
 
 class InquireModel(Model):

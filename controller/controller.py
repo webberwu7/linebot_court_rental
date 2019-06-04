@@ -77,6 +77,10 @@ class MaintainController(Controller):
     def get_maintains(self):
         return self.maintainModel.getMaintain()
 
+    def post_maintain(self, court, user_id):
+        now = time.strftime("%Y-%m-%d %H:%M:%S")
+        return self.maintainModel.postMaintain(court, user_id, now)
+
 
 class SearchController(Controller):
     def __init__(self):

@@ -64,9 +64,16 @@ def parser_text(inputText, uid):
     elif first == 'booking':
         return view.TextView('booking something')
 
-    elif first == 'maintain':
+    elif first == 'maintain':   ## maintain/post/籃球場/60747021s  ## 1代表60747021s
         maintain = controller.MaintainController()
-        return view.TextView(maintain.get_maintains())
+        second = inputTextToken.pop(0)
+
+        if(second == 'all'):
+            return view.TextView(maintain.get_maintains())
+        elif(second == 'post'):
+            court = inputTextToken.pop(0)
+            user_id = inputTextToken.pop(0)
+            post = maintain.post_maintain(court,user_id)
 
     elif first == 'bulletin':
         bulletin = controller.BulletinController()
