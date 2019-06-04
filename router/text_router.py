@@ -52,15 +52,32 @@ def parser_text(inputText, uid):
                     return view.TextView(account.set_hobby(uid, time, court))
 
     elif first == 'search':
-        #second = inputTextToken.pop(0)
         search = controller.SearchController()
 
-        # if second == 'court':
-        #    return str(search.get_court())
+        if not inputTextToken:
+            return view.SearchTimeHelpView()
 
-        third = inputTextToken.pop(0)
-        if third == 'Monday':
-            return view.TextView(search.get_day(third))
+        second = inputTextToken.pop(0)
+        if second == 'time':
+            if not inputTextToken:
+                return view.SearchTimeHelpView()
+
+            time = inputTextToken.pop(0)
+
+            if not inputTextToken:
+                return view.SearchCourtHelpView(last_input='search/time/'+str(time))
+
+            third = inputTextToken.pop(0)
+            if third == 'court':
+                if not inputTextToken:
+                    return view.SearchCourtHelpView(last_input='search/time/'+str(time))
+
+                court = inputTextToken.pop(0)
+
+                return view.TextView(search.find(uid, time, court))
+
+            else:
+                return view.SearchTimeHelpView()
 
     elif first == 'booking':
         return view.TextView('booking something')

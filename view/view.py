@@ -317,6 +317,173 @@ class MaintainPostHelpView(View):
         )
 
 
+class SearchTimeHelpView(View):
+    def __init__(self, title='搜尋小幫手', text='請選擇搜尋時間', last_input="/search"):
+        self.title = title
+        self.text = text
+        self.last_input = last_input
+
+    def show(self):
+        return TemplateSendMessage(
+            alt_text="account help button message",
+            template=CarouselTemplate(
+                columns=[
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='星期一早上',
+                                text=self.last_input+'/time/1'
+                            ),
+                            MessageTemplateAction(
+                                label='星期一下午',
+                                text=self.last_input+'/time/2'
+                            ),
+                            MessageTemplateAction(
+                                label='星期一晚上',
+                                text=self.last_input+'/time/3'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='星期二早上',
+                                text=self.last_input+'/time/4'
+                            ),
+                            MessageTemplateAction(
+                                label='星期二下午',
+                                text=self.last_input+'/time/5'
+                            ),
+                            MessageTemplateAction(
+                                label='星期二晚上',
+                                text=self.last_input+'/time/6'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='星期三早上',
+                                text=self.last_input+'/time/7'
+                            ),
+                            MessageTemplateAction(
+                                label='星期三下午',
+                                text=self.last_input+'/time/8'
+                            ),
+                            MessageTemplateAction(
+                                label='星期三晚上',
+                                text=self.last_input+'/time/9'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='星期四早上',
+                                text=self.last_input+'/time/10'
+                            ),
+                            MessageTemplateAction(
+                                label='星期四下午',
+                                text=self.last_input+'/time/11'
+                            ),
+                            MessageTemplateAction(
+                                label='星期四晚上',
+                                text=self.last_input+'/time/12'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='星期五早上',
+                                text=self.last_input+'/time/13'
+                            ),
+                            MessageTemplateAction(
+                                label='星期五下午',
+                                text=self.last_input+'/time/14'
+                            ),
+                            MessageTemplateAction(
+                                label='星期五晚上',
+                                text=self.last_input+'/time/15'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='星期六早上',
+                                text=self.last_input+'/time/16'
+                            ),
+                            MessageTemplateAction(
+                                label='星期六下午',
+                                text=self.last_input+'/time/17'
+                            ),
+                            MessageTemplateAction(
+                                label='星期六晚上',
+                                text=self.last_input+'/time/18'
+                            )
+                        ]
+                    ),
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='星期日早上',
+                                text=self.last_input+'/time/19'
+                            ),
+                            MessageTemplateAction(
+                                label='星期日下午',
+                                text=self.last_input+'/time/20'
+                            ),
+                            MessageTemplateAction(
+                                label='星期日晚上',
+                                text=self.last_input+'/time/21'
+                            )
+                        ]
+                    ),
+                ]
+            )
+        )
+
+class SearchCourtHelpView(View):
+    def __init__(self, title='搜尋場地', text='請選擇要搜尋的場地', last_input=""):
+        self.title = title
+        self.text = text
+        self.last_input = last_input
+
+    def show(self):
+        return TemplateSendMessage(
+            alt_text="search court help button message",
+            template=ButtonsTemplate(
+                title=self.title,
+                text=self.text,
+                actions=[
+                    MessageTemplateAction(
+                        label='籃球場',
+                        text=self.last_input+'/court/1'
+                    ),
+                    MessageTemplateAction(
+                        label='排球場',
+                        text=self.last_input+'/court/2'
+                    ),
+                ]
+            )
+        )
+
+
 class ButtonDataView(View):
     def __init__(self, title, text):
         self.title = title
