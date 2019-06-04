@@ -76,7 +76,7 @@ class ButtonDataView(View):
 
     def show(self):
         return TemplateSendMessage(
-            alt_text="template message",
+            alt_text="button data template message",
             template=ButtonsTemplate(
                 title=self.title,
                 text=self.text,

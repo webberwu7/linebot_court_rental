@@ -45,5 +45,8 @@ def parser_text(inputText):
     elif first == 'help':
         return view.HelperView("小幫手", '指令')
 
+    elif first == 'debug':
+        return view.ButtonDataView('測試', 'debug')
+
     else:
         return view.TextView("i don't know what you say")
