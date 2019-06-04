@@ -20,20 +20,18 @@ class AccountController(Controller):
 
     def store(self, uid, student_id):
         answer = self.accountModel.store(student_id, uid)
-        answer = self.accountModel.find(answer)
+        answer = self.accountModel.find(uid)
         return "you register new account : \n" + str(answer)
 
     def get_accounts(self):
         return self.accountModel.getAccounts()
 
     def set_hobby(self, uid, time, court):
-        account = self.accountModel.find(uid)[0]
-        answer = self.hobbyModel.store(account, time, court)
-        return "insert hobby success: "+str(answer[1])+" "+str(answer[2])
+        answer = self.hobbyModel.store(uid, time, court)
+        return "新增喜好成功"
 
     def get_hobby(self, uid):
-        account = self.hobbyModel.find(uid)[0]
-        answer = self.hobbyModel.find(account)
+        answer = self.hobbyModel.find(uid)
         return "my hobby : " + str(answer)
 
 

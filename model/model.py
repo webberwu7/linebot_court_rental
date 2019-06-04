@@ -43,7 +43,7 @@ class AccountModel(Model):
         self.connect()
 
         cursor = self.connection.cursor()
-        cursor.execute('INSERT INTO `account` (`student_id`, `line_token`) VALUES (%s, %s)', [
+        cursor.execute('INSERT INTO `account` (`student_id`, `line_id`) VALUES (%s, %s)', [
                        student_id, uid])
 
         self.connection.commit()
@@ -52,11 +52,11 @@ class AccountModel(Model):
 
         return answer
 
-    def find(self, id):
+    def find(self, uid):
         self.connect()
 
         cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM `account` WHERE `id` = %s", id)
+        cursor.execute("SELECT * FROM `account` WHERE `line_id` = %s", uid)
         answer = cursor.fetchall()
 
         self.close()
@@ -156,31 +156,33 @@ class HobbyModel(Model):
         super().__init__()
         self.table = "hobby"
 
-    def store(self, account, time_range, court):
+    def store(self, uid, time_range, court):
         self.connect()
 
         cursor = self.connection.cursor()
-        cursor.execute('INSERT INTO `hobby` (`account_id`, `time_range_id`, `court_id`) VALUES (%{account}s, %{time_range}s, %{court}s) ON DUPLICATE KEY UPDATE `time_range_id` = %{time_range}s , `court_id` = %{court}s', 
-            { 
-                'account': account,
-                'time_range': time_range,
-                'court': court
-            })
+        cursor.execute('INSERT INTO `hobby` (`line_id`, `time_range_id`, `court_id`) VALUES (%(uid)s, %(time_range)s, %(court)s) ON DUPLICATE KEY UPDATE `time_range_id` = %(time_range)s , `court_id` = %(court)s',
+                       {
+                           'uid': uid,
+                           'time_range': time_range,
+                           'court': court
+                       })
 
         self.connection.commit()
-        answer=cursor.lastrowid
+        answer = cursor.lastrowid
         self.close()
 
         return answer
 
-    def find(self, account):
+    def find(self, uid):
         self.connect()
 
         cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM `hobby` WHERE `account_id` = %s", account)
+        cursor.execute("SELECT `day_of_week`,`zone`, `name` FROM `hobby` \
+                        LEFT JOIN `time_range` ON `hobby`.`time_range_id` = `time_range`.`id` \
+                        LEFT JOIN `court` ON `hobby`.`court_id` = `court`.`id` \
+                        WHERE `line_id` = %s", uid)
         answer = cursor.fetchone()
-        
+
         self.close()
 
         return answer
-
