@@ -83,23 +83,28 @@ def parser_text(inputText, uid):
         booking = controller.BookingController()
         if not inputTextToken:
             return view.TimeHelpView(title='預約時間', text='請選擇預約時間', last_input='booking')
-        
-        time = inputTextToken.pop(0)
 
-        if not inputTextToken:
-            return view.CourtHelpView(title='預約地點', text='請選擇預約地點', last_input='booking/'+str(time))
-
-        third = inputTextToken.pop(0)
-        if third == 'court':
+        second = inputTextToken.pop(0)
+        if second == 'time':
             if not inputTextToken:
-                return view.CourtHelpView(title='預約地點', text='請選擇預約地點', last_input='booking/'+str(time))
+                return view.TimeHelpView(title='預約時間', text='請選擇預約時間', last_input='booking')
 
-            court = inputTextToken.pop(0)
+            time = inputTextToken.pop(0)
 
-            return booking.store(uid, time, court)
+            if not inputTextToken:
+                return view.CourtHelpView(title='預約地點', text='請選擇預約地點', last_input='booking/time/'+str(time))
 
-        else:
-            return view.TimeHelpView(title='預約時間', text='請選擇預約時間', last_input='booking')
+            third = inputTextToken.pop(0)
+            if third == 'court':
+                if not inputTextToken:
+                    return view.CourtHelpView(title='預約地點', text='請選擇預約地點', last_input='booking/time/'+str(time))
+
+                court = inputTextToken.pop(0)
+
+                return booking.store(uid, time, court)
+
+            else:
+                return view.TimeHelpView(title='預約時間', text='請選擇預約時間', last_input='booking')
 
     elif first == 'maintain':
         if not inputTextToken:
