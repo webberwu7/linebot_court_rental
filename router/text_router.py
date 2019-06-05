@@ -51,6 +51,12 @@ def parser_text(inputText, uid):
                     court = inputTextToken.pop(0)
                     return view.TextView(account.set_hobby(uid, time, court))
 
+            elif third == 'search':
+                return account.hobby_search(uid)
+
+            elif third == 'booking':
+                return account.hobby_booking(uid)
+
     elif first == 'search':
         search = controller.SearchController()
 
@@ -130,9 +136,6 @@ def parser_text(inputText, uid):
 
     elif first == 'help':
         return view.HelperView("小幫手", '指令')
-
-    elif first == 'debug':
-        return view.ButtonDataView('測試', 'debug')
 
     else:
         return view.HelperView("小幫手", '指令')

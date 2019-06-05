@@ -14,6 +14,7 @@ class AccountController(Controller):
         self.accountModel = model.AccountModel()
         self.statusModel = model.StatusModel()
         self.hobbyModel = model.HobbyModel()
+        self.bookingModel = model.BookingModel()
 
     def ask_register(self, uid):
         status_row = self.statusModel.store(uid, 1)
@@ -34,6 +35,30 @@ class AccountController(Controller):
     def get_hobby(self, uid):
         answer = self.hobbyModel.find(uid)
         return "my hobby : " + str(answer)
+
+    def hobby_search(self, uid):
+        hobby = self.hobbyModel.find_ver2(uid)
+        time = hobby['time_range_id']
+        court = hobby['court_id']
+        booking = self.bookingModel.find(time, court)
+        print(str(booking))
+        if booking['amount'] != 0:
+            return view.TextView("{time} 的 {court} 已經被借走了".format(time=hobby['day_of_week']+hobby['zone'], court=hobby['name']))
+
+        return view.TextView("{time} 的 {court} 可以被租借".format(time=hobby['day_of_week']+hobby['zone'], court=hobby['name']))
+
+    def hobby_booking(self, uid):
+        hobby = self.hobbyModel.find_ver2(uid)
+        time = hobby['time_range_id']
+        court = hobby['court_id']
+        booking = self.bookingModel.find(time, court)
+        if booking['amount'] == 0:
+            text = "確認預約 {time} 的 {court} ?".format(
+                time=hobby['day_of_week']+hobby['zone'], court=hobby['name'])
+
+            return view.BookingConfirmView(text, time, court)
+
+        return view.TextView("{time} 的 {court} 已經被借走了".format(time=hobby['day_of_week']+hobby['zone'], court=hobby['name']))
 
 
 class BulletinController(Controller):

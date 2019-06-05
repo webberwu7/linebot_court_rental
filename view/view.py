@@ -1,7 +1,7 @@
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, ButtonsTemplate,
     TemplateSendMessage, PostbackTemplateAction, MessageTemplateAction, URITemplateAction,
-    CarouselTemplate, CarouselColumn
+    CarouselTemplate, CarouselColumn, ConfirmTemplate
 )
 
 
@@ -670,6 +670,32 @@ class CourtHelpView(View):
                         label='排球場',
                         text=self.last_input+'/court/2'
                     ),
+                ]
+            )
+        )
+
+
+class BookingConfirmView(View):
+    def __init__(self, text, time, court, title='預約確認'):
+        self.title = title
+        self.text = text
+        self.time = time
+        self.court = court
+
+    def show(self):
+        return TemplateSendMessage(
+            alt_text='Booking Confirm template',
+            template=ConfirmTemplate(
+                text=self.text,
+                actions=[
+                    MessageTemplateAction(
+                        label='確認',
+                        text='booking/time/'+str(self.time)+'/court/'+str(self.court)
+                    ),
+                    MessageTemplateAction(
+                        label='取消',
+                        text='cancel'
+                    )
                 ]
             )
         )

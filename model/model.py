@@ -214,6 +214,20 @@ class HobbyModel(Model):
         return answer
 
 
+    def find_ver2(self, uid):
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("SELECT * FROM `hobby` \
+                        LEFT JOIN `time_range` ON `hobby`.`time_range_id` = `time_range`.`id` \
+                        LEFT JOIN `court` ON `hobby`.`court_id` = `court`.`id` \
+                        WHERE `line_id` = %s", uid)
+        answer = cursor.fetchone()
+
+        self.close()
+
+        return answer
+
 class BookingModel(Model):
     def __init__(self, ):
         super().__init__()
