@@ -716,7 +716,8 @@ class BookingConfirmView(View):
                 actions=[
                     MessageTemplateAction(
                         label='確認',
-                        text='booking/time/'+str(self.time)+'/court/'+str(self.court)
+                        text='booking/time/' +
+                        str(self.time)+'/court/'+str(self.court)
                     ),
                     MessageTemplateAction(
                         label='取消',

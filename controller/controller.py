@@ -23,7 +23,12 @@ class AccountController(Controller):
     def store(self, uid, student_id):
         answer = self.accountModel.store(student_id, uid)
         answer = self.accountModel.find(uid)
-        return "you register new account : \n" + str(answer)
+        outputStr = "you register new account : \nLine_id: {line_id}\nstudent_id: {student_id}".format(
+            line_id=answer['line_id'],
+            student_id=answer['student_id']
+        )
+
+        return view.TextView(outputStr)
 
     def get_accounts(self):
         return self.accountModel.getAccounts()
@@ -133,7 +138,7 @@ class SearchController(Controller):
         if answer['amount'] != 0:
             return view.TextView("這時間的球場有人預約囉")
 
-        return view.TextView("此時段為空 請問要預約嗎？")
+        return view.BookingConfirmView("此時段為空 請問要預約嗎？", time, court)
 
 
 class BookingController(Controller):
@@ -147,3 +152,21 @@ class BookingController(Controller):
     def delete(self, uid, id):
         self.bookingModel.delete(uid, id)
         return view.TextView("刪除完成")
+
+
+class CourtController(Controller):
+    def __init__(self):
+        self.courtModel = model.CourtModel()
+
+    def index(self):
+        courts = self.courtModel.get_courts()
+        answer = "\n目前開放的球場:\n"
+        for court in courts:
+            answer += "{name} 位置在 {loc} 數量有 {amount} 敘述 {desc}\n".format(
+                name=court['name'],
+                loc=court['location'],
+                amount=court['amount'],
+                desc=court['description']
+            )
+
+        return view.TextView(answer)

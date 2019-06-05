@@ -21,11 +21,11 @@ def parser_text(inputText, uid):
         # account/register/60747021s
         if second == 'register':
             if not inputTextToken:
-                return view.TextView("Example :\n account/register/[your student id there]")
+                return view.TextView("Example :\naccount/register/[your student id there]")
 
             third = inputTextToken.pop(0)
             answer = account.store(uid, third)
-            return view.TextView(answer)
+            return view.TextView("帳號綁定完成\n請輸入 help 回到小幫手清單")
 
         # account/hobby/time/1/court/1
         elif second == 'hobby':
@@ -154,6 +154,10 @@ def parser_text(inputText, uid):
 
     elif first == 'help':
         return view.HelperView("小幫手", '指令')
+
+    elif first == 'court':
+        court = controller.CourtController()
+        return court.index()
 
     else:
         return view.HelperView("小幫手", '指令')

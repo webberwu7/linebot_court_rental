@@ -58,7 +58,7 @@ class AccountModel(Model):
 
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM `account` WHERE `line_id` = %s", uid)
-        answer = cursor.fetchall()
+        answer = cursor.fetchone()
 
         self.close()
         answer = json.dumps(answer)
@@ -93,10 +93,10 @@ class CourtModel(Model):
         super().__init__()
         self.table = "court"
 
-    def get_court(self):
+    def get_courts(self):
         self.connect()
 
-        cursor = self.connection.cursor()
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT * FROM `court`')
         answer = cursor.fetchall()
 
