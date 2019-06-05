@@ -58,7 +58,7 @@ class AccountModel(Model):
 
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM `account` WHERE `line_id` = %s", uid)
-        answer = cursor.fetchall()
+        answer = cursor.fetchone()
 
         self.close()
         answer = json.dumps(answer)
@@ -93,10 +93,10 @@ class CourtModel(Model):
         super().__init__()
         self.table = "court"
 
-    def get_court(self):
+    def get_courts(self):
         self.connect()
 
-        cursor = self.connection.cursor()
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute('SELECT * FROM `court`')
         answer = cursor.fetchall()
 
@@ -213,6 +213,20 @@ class HobbyModel(Model):
 
         return answer
 
+    def find_ver2(self, uid):
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("SELECT * FROM `hobby` \
+                        LEFT JOIN `time_range` ON `hobby`.`time_range_id` = `time_range`.`id` \
+                        LEFT JOIN `court` ON `hobby`.`court_id` = `court`.`id` \
+                        WHERE `line_id` = %s", uid)
+        answer = cursor.fetchone()
+
+        self.close()
+
+        return answer
+
 
 class BookingModel(Model):
     def __init__(self, ):
@@ -243,3 +257,28 @@ class BookingModel(Model):
         self.close()
 
         return answer
+
+    def find_by_uid(self, uid):
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(
+            "SELECT * FROM `booking` \
+            LEFT JOIN `time_range` ON `time_range`.`id` = `booking`.`time_range_id` \
+            LEFT JOIN `court` ON `court`.`id` = `booking`.`court_id` \
+            WHERE `line_id` = %s", uid)
+
+        answer = cursor.fetchall()
+        self.close()
+
+        return answer
+
+    def delete(self, uid, id):
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(
+            "DELETE FROM `booking` WHERE `booking`.`id` = %s AND `booking`.`line_id` = %s", (id, uid))
+
+        self.connection.commit()
+        self.close()

@@ -21,11 +21,11 @@ def parser_text(inputText, uid):
         # account/register/60747021s
         if second == 'register':
             if not inputTextToken:
-                return view.TextView("Example :\n account/register/[your student id there]")
+                return view.TextView("Example :\naccount/register/[your student id there]")
 
             third = inputTextToken.pop(0)
             answer = account.store(uid, third)
-            return view.TextView(answer)
+            return view.TextView("帳號綁定完成\n請輸入 help 回到小幫手清單")
 
         # account/hobby/time/1/court/1
         elif second == 'hobby':
@@ -50,6 +50,30 @@ def parser_text(inputText, uid):
 
                     court = inputTextToken.pop(0)
                     return view.TextView(account.set_hobby(uid, time, court))
+
+            elif third == 'search':
+                return account.hobby_search(uid)
+
+            elif third == 'booking':
+                return account.hobby_booking(uid)
+
+        elif second == 'booking':
+            if not inputTextToken:
+                return view.AccountBookingHelpView()
+
+            third = inputTextToken.pop(0)
+
+            if third == 'list':
+                return account.get_booking(uid)
+
+            elif third == 'delete':
+                if not inputTextToken:
+                    return view.TextView("Example :\naccount/booking/delete/[your want delete id there]")
+
+                booking = controller.BookingController()
+                booking_id = inputTextToken.pop(0)
+
+                return booking.delete(uid, booking_id)
 
     elif first == 'search':
         search = controller.SearchController()
@@ -131,8 +155,9 @@ def parser_text(inputText, uid):
     elif first == 'help':
         return view.HelperView("小幫手", '指令')
 
-    elif first == 'debug':
-        return view.ButtonDataView('測試', 'debug')
+    elif first == 'court':
+        court = controller.CourtController()
+        return court.index()
 
     else:
         return view.HelperView("小幫手", '指令')
