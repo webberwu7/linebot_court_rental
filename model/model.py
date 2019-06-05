@@ -272,3 +272,13 @@ class BookingModel(Model):
         self.close()
 
         return answer
+
+    def delete(self, id):
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(
+            "DELETE FROM `booking` WHERE `booking`.`id` = %s", id)
+
+        self.connection.commit()
+        self.close()

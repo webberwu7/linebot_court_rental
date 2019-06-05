@@ -675,6 +675,32 @@ class CourtHelpView(View):
         )
 
 
+class AccountBookingHelpView(View):
+    def __init__(self, title='帳號預約記錄', text='請選擇功能', last_input="account/booking"):
+        self.title = title
+        self.text = text
+        self.last_input = last_input
+
+    def show(self):
+        return TemplateSendMessage(
+            alt_text="account booking help button message",
+            template=ButtonsTemplate(
+                title=self.title,
+                text=self.text,
+                actions=[
+                    MessageTemplateAction(
+                        label='預約記錄',
+                        text=self.last_input+'/list'
+                    ),
+                    MessageTemplateAction(
+                        label='刪除預約',
+                        text=self.last_input+'/delete'
+                    ),
+                ]
+            )
+        )
+
+
 class BookingConfirmView(View):
     def __init__(self, text, time, court, title='預約確認'):
         self.title = title

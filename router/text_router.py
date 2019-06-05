@@ -58,7 +58,23 @@ def parser_text(inputText, uid):
                 return account.hobby_booking(uid)
 
         elif second == 'booking':
-            return account.get_booking(uid)
+            if not inputTextToken:
+                return view.AccountBookingHelpView()
+
+            third = inputTextToken.pop(0)
+
+            if third == 'list':
+                return account.get_booking(uid)
+            
+            elif third == 'delete':
+                if not inputTextToken:
+                    return view.TextView("Example :\naccount/booking/delete/[your want delete id there]")
+                
+                booking = controller.BookingController()
+                booking_id = inputTextToken.pop(0)
+
+                return booking.delete(booking_id)
+                
 
     elif first == 'search':
         search = controller.SearchController()

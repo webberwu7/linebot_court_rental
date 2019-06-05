@@ -62,9 +62,10 @@ class AccountController(Controller):
 
     def get_booking(self, uid):
         bookings = self.bookingModel.find_by_uid(uid)
-        answer = "你預約的時間有:\n"
+        answer = "\n你預約的時間有:\n"
         for booking in bookings:
-            answer += "{time} 的 {court}\n".format(
+            answer += "id= {id}, {time} 的 {court}\n".format(
+                id=str(booking['id']),
                 time=str(booking['day_of_week']+str(booking['zone'])),
                 court=str(booking['name']))
 
@@ -142,3 +143,7 @@ class BookingController(Controller):
     def store(self, uid, time, court):
         self.bookingModel.store(uid, time, court)
         return view.TextView("預約完成")
+
+    def delete(self, id):
+        self.bookingModel.delete(id)
+        return view.TextView("刪除完成")
