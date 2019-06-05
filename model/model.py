@@ -213,7 +213,6 @@ class HobbyModel(Model):
 
         return answer
 
-
     def find_ver2(self, uid):
         self.connect()
 
@@ -227,6 +226,7 @@ class HobbyModel(Model):
         self.close()
 
         return answer
+
 
 class BookingModel(Model):
     def __init__(self, ):
@@ -254,6 +254,21 @@ class BookingModel(Model):
 
         self.connection.commit()
         answer = cursor.lastrowid
+        self.close()
+
+        return answer
+
+    def find_by_uid(self, uid):
+        self.connect()
+
+        cursor = self.connection.cursor(pymysql.cursors.DictCursor)
+        cursor.execute(
+            "SELECT * FROM `booking` \
+            LEFT JOIN `time_range` ON `time_range`.`id` = `booking`.`time_range_id` \
+            LEFT JOIN `court` ON `court`.`id` = `booking`.`court_id` \
+            WHERE `line_id` = %s", uid)
+
+        answer = cursor.fetchall()
         self.close()
 
         return answer

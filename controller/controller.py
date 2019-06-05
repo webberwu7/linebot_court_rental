@@ -60,6 +60,16 @@ class AccountController(Controller):
 
         return view.TextView("{time} 的 {court} 已經被借走了".format(time=hobby['day_of_week']+hobby['zone'], court=hobby['name']))
 
+    def get_booking(self, uid):
+        bookings = self.bookingModel.find_by_uid(uid)
+        answer = "你預約的時間有:\n"
+        for booking in bookings:
+            answer += "{time} 的 {court}\n".format(
+                time=str(booking['day_of_week']+str(booking['zone'])),
+                court=str(booking['name']))
+
+        return view.TextView(answer)
+
 
 class BulletinController(Controller):
     def __init__(self):

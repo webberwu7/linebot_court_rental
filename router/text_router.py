@@ -57,6 +57,9 @@ def parser_text(inputText, uid):
             elif third == 'booking':
                 return account.hobby_booking(uid)
 
+        elif second == 'booking':
+            return account.get_booking(uid)
+
     elif first == 'search':
         search = controller.SearchController()
 
