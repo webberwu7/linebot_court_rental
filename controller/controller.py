@@ -144,6 +144,6 @@ class BookingController(Controller):
         self.bookingModel.store(uid, time, court)
         return view.TextView("預約完成")
 
-    def delete(self, id):
-        self.bookingModel.delete(id)
+    def delete(self, uid, id):
+        self.bookingModel.delete(uid, id)
         return view.TextView("刪除完成")
