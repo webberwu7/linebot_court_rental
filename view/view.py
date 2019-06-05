@@ -77,22 +77,44 @@ class AccountHelpView(View):
     def show(self):
         return TemplateSendMessage(
             alt_text="account help button message",
-            template=ButtonsTemplate(
-                title=self.title,
-                text=self.text,
-                actions=[
-                    MessageTemplateAction(
-                        label='line帳號綁定學號',
-                        text='account/register'
+            template=CarouselTemplate(
+                columns=[
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='line帳號綁定學號',
+                                text='account/register'
+                            ),
+                            MessageTemplateAction(
+                                label='帳號喜好',
+                                text='account/hobby'
+                            ),
+                            MessageTemplateAction(
+                                label='帳號喜好設定',
+                                text='account/hobby/time'
+                            )
+                        ]
                     ),
-                    MessageTemplateAction(
-                        label='帳號喜好',
-                        text='account/hobby'
+                    CarouselColumn(
+                        title=self.title,
+                        text=self.text,
+                        actions=[
+                            MessageTemplateAction(
+                                label='喜好快速查詢',
+                                text='account/hobby/search'
+                            ),
+                            MessageTemplateAction(
+                                label='喜好快速預約',
+                                text='account/hobby/booking'
+                            ),
+                            MessageTemplateAction(
+                                label='帳號預約紀錄',
+                                text='account/booking'
+                            )
+                        ]
                     ),
-                    MessageTemplateAction(
-                        label='帳號喜好設定',
-                        text='account/hobby/time'
-                    )
                 ]
             )
         )
@@ -458,6 +480,7 @@ class SearchTimeHelpView(View):
             )
         )
 
+
 class SearchCourtHelpView(View):
     def __init__(self, title='搜尋場地', text='請選擇要搜尋的場地', last_input=""):
         self.title = title
@@ -482,6 +505,7 @@ class SearchCourtHelpView(View):
                 ]
             )
         )
+
 
 class TimeHelpView(View):
     def __init__(self, title='時間小幫手', text='請選擇時間', last_input=""):
@@ -623,6 +647,7 @@ class TimeHelpView(View):
                 ]
             )
         )
+
 
 class CourtHelpView(View):
     def __init__(self, title='場地小幫手', text='請選擇場地', last_input=""):
