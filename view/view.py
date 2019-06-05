@@ -37,13 +37,13 @@ class HelperView(View):
                                 text='account'
                             ),
                             MessageTemplateAction(
+                                label='場地資訊',
+                                text='court'
+                            ),
+                            MessageTemplateAction(
                                 label='搜尋',
                                 text='search'
                             ),
-                            MessageTemplateAction(
-                                label='預約',
-                                text='booking'
-                            )
                         ]
                     ),
                     CarouselColumn(
@@ -51,16 +51,16 @@ class HelperView(View):
                         text=self.text,
                         actions=[
                             MessageTemplateAction(
+                                label='預約',
+                                text='booking'
+                            ),
+                            MessageTemplateAction(
                                 label='報修',
                                 text='maintain'
                             ),
                             MessageTemplateAction(
                                 label='佈告欄',
                                 text='bulletin'
-                            ),
-                            MessageTemplateAction(
-                                label='幫助',
-                                text='help'
                             )
                         ]
                     ),

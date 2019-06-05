@@ -160,9 +160,9 @@ class CourtController(Controller):
 
     def index(self):
         courts = self.courtModel.get_courts()
-        answer = "\n目前開放的球場:\n"
+        answer = "\n目前開放的球場:"
         for court in courts:
-            answer += "{name} 位置在 {loc} 數量有 {amount} 敘述 {desc}\n".format(
+            answer += "\n\n{name} 位置在 {loc} 數量有 {amount}\n{desc}".format(
                 name=court['name'],
                 loc=court['location'],
                 amount=court['amount'],
